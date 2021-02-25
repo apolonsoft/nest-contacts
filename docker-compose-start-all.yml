@@ -1,0 +1,22 @@
+version: "3.7"
+
+networks:
+  banxe-network:
+    external: true
+
+volumes:
+  node_modules_storage:
+
+services:
+  app:
+    build: .
+    container_name: banxe-contacts
+    networks:
+      banxe-network:
+    ports:
+      - "3002:3002"
+    volumes:
+      - .:/project
+      - node_modules_storage:/project/node_modules
+    env_file: .env
+    restart: always

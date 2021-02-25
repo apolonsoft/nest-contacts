@@ -1,0 +1,25 @@
+version: "3.7"
+
+volumes:
+  mongo-storage:
+  node_modules_storage:
+
+services:
+  app:
+    build: .
+    depends_on:
+      - mongo
+    ports:
+      - "3002:3002"
+    volumes:
+      - .:/project
+      - node_modules_storage:/project/node_modules
+    env_file: .env
+    restart: always
+  mongo:
+    image: mongo:4.2.0
+    container_name: contacts-db-mongo
+    volumes:
+      - mongo-storage:/data/db
+    ports:
+      - "27017"

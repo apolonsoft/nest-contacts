@@ -1,0 +1,18 @@
+deploy:
+  stage: deploy
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "dev"'
+  tags:
+    - ssh
+    - banxe
+  before_script:
+    - . ~/.nvm/nvm.sh
+  script:
+    - cp -rf ./ ~/nest-contacts
+    - cd ~/banxe-contacts
+    - nvm use
+    - npm i
+    - npm run build
+    - pm2 restart nest-contacts
+    - sleep 15s
+    - pm2 restart nest-gateway
